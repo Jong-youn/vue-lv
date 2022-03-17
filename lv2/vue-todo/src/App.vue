@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput></TodoInput>
-    <TodoList v-bind:propsdata="todoItems"></TodoList>
+    <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
+    <TodoList v-bind:propsdata="todoItems"
+              v-on:removeTodoItem="removeOneItem"
+              v-on:completeTodoItem="completeOneItem"></TodoList>
     <TodoFooter></TodoFooter>
   </div>
 </template>
@@ -33,6 +35,22 @@ export default {
           this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
         }
       }
+    }
+  },
+  methods: {
+    addOneItem: function(newTodoItem) {
+      var obj = {completed: false, item: newTodoItem}
+      localStorage.setItem(newTodoItem, JSON.stringify(obj))
+      this.todoItems.push(obj)
+    },
+    removeOneItem: function(todo, idx) {
+      localStorage.removeItem(todo.item)
+      this.todoItems.splice(idx, 1);
+    },
+    completeOneItem: function(todoItem) {
+      // this.todoItems[idx].completed = !this.todoItems[idx].completed      
+      todoItem.completed = !todoItem.completed 
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
     }
   }
 }
