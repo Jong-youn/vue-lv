@@ -5,7 +5,7 @@
     <TodoList v-bind:propsdata="todoItems"
               v-on:removeTodoItem="removeOneItem"
               v-on:completeTodoItem="completeOneItem"></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoFooter v-on:clearAll="clearAllItems"></TodoFooter>
   </div>
 </template>
 
@@ -31,7 +31,6 @@ export default {
     if (localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-          console.log(JSON.parse(localStorage.getItem(localStorage.key(i))))
           this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))))
         }
       }
@@ -47,10 +46,14 @@ export default {
       localStorage.removeItem(todo.item)
       this.todoItems.splice(idx, 1);
     },
-    completeOneItem: function(todoItem) {
-      // this.todoItems[idx].completed = !this.todoItems[idx].completed      
+    completeOneItem: function(todoItem, idx) {
+      this.todoItems[idx].completed = !this.todoItems[idx].completed      
       todoItem.completed = !todoItem.completed 
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem))
+      localStorage.setItem(todoItem.item, JSON.stringify(this.todoItems[idx]))
+    },
+    clearAllItems: function() {
+      localStorage.clear();
+      this.todoItems = [];
     }
   }
 }

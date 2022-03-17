@@ -3,7 +3,7 @@
     <ul>
       <li v-for="(todoItem, idx) in propsdata" v-bind:key="todoItem.key" class="shadow">
         <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
-          v-on:click="toggleComplate(todoItem)"></i>
+          v-on:click="toggleComplate(todoItem, idx)"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
         <span class="removeBtn" v-on:click="removeItem(todoItem, idx)">
           <i class="removeBtn fas fa-trash-alt"></i>
@@ -20,8 +20,8 @@ export default {
     removeItem: function(todo, idx) {
       this.$emit('removeTodoItem', todo, idx)
     },
-    toggleComplate: function(todo) {
-      this.$emit('completeTodoItem', todo)
+    toggleComplate: function(todo, idx) {
+      this.$emit('completeTodoItem', todo, idx)
     }
   }
 }
