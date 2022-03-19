@@ -22,12 +22,12 @@ export default {
     TodoList,
     TodoFooter
   },
-  data () {
+  data() {
     return {
       todoItems: []
     }
   },
-  created: function() {
+  created() {
     if (localStorage.length > 0) {
       for (var i = 0; i < localStorage.length; i++) {
         if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
@@ -37,21 +37,21 @@ export default {
     }
   },
   methods: {
-    addOneItem: function(newTodoItem) {
+    addOneItem(newTodoItem) {
       var obj = {completed: false, item: newTodoItem}
       localStorage.setItem(newTodoItem, JSON.stringify(obj))
       this.todoItems.push(obj)
     },
-    removeOneItem: function(todo, idx) {
+    removeOneItem(todo, idx) {
       localStorage.removeItem(todo.item)
       this.todoItems.splice(idx, 1);
     },
-    completeOneItem: function(todoItem, idx) {
+    completeOneItem(todoItem, idx) {
       this.todoItems[idx].completed = !this.todoItems[idx].completed      
       todoItem.completed = !todoItem.completed 
       localStorage.setItem(todoItem.item, JSON.stringify(this.todoItems[idx]))
     },
-    clearAllItems: function() {
+    clearAllItems() {
       localStorage.clear();
       this.todoItems = [];
     }
