@@ -8,6 +8,11 @@ import { fetchAskList } from '../api/index.js';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+  getters: {
+    fetchedNews(state) {
+      return state.news;
+    }
+  },
   state: {
     news: [],
     jobs: [],
@@ -43,10 +48,10 @@ export const store = new Vuex.Store({
         console.log(e)
       })
     },
-    FETCH_ASK(context) {
+    FETCH_ASK({ commit }) {         // destructuring
       fetchAskList()
-      .then(response => {
-        context.commit('SET_ASK', response.data);
+      .then(({ data }) => {
+        commit('SET_ASK', data);
       })
       .catch(function(e) {
         console.log(e)
